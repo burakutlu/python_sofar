@@ -3,25 +3,37 @@ import coffee
 coffee_machine = coffee.Coffee()
 
 
-def add_item(listItems):
+def add_item(menu):
     name_input = input("Enter the item's name: ").capitalize()
-    new_item = coffee.MenuItem(name_input)
-    listItems.append(new_item)
+    price = float(input("Enter the item's price: $"))
+    water_amt = int(input("Enter the required water amount: "))
+    milk_amt = int(input("Enter the required milk amount: "))
+    coffee_amt = int(input("Enter the required coffee amount: "))
+    menu.update({name_input: {"price": price, "water": water_amt, "milk": milk_amt, "coffee": coffee_amt}})
 
 
 if __name__ == "__main__":
-    item_list = []
     isRunning = True
+    MenuList = {}
     while isRunning:
-        usr_input = input("Commands (add, item status, machine status, buy): ")
+        usr_input = input("Commands (add, resource, machine status, buy or exit): ")
         if usr_input == "add":
-            add_item(item_list)
+            add_item(MenuList)
         elif usr_input == "machine status":
             print(coffee_machine)
         elif usr_input == "buy":
-            if len(item_list) > 0:
-                coffee_machine.list(item_list)
-                item = eval(input("Enter the name of the item: ").capitalize())
-                print(type(item))
+            if len(MenuList) > 0:
+                coffee_machine.list(MenuList)
+                cf_input = input("Enter your order: ").capitalize()
+                coffee_machine.order(MenuList, cf_input)
             else:
                 print("There are no items to order.")
+        elif usr_input == "resource":
+            water_amount = int(input("Enter the required water amount: "))
+            milk_amount = int(input("Enter the required milk amount: "))
+            coffee_amount = int(input("Enter the required coffee amount: "))
+            coffee_machine.add_resource(water_amount, milk_amount, coffee_amount)
+        elif usr_input == "exit":
+            coffee_machine.quit()
+        else:
+            print("Invalid command.")

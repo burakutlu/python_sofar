@@ -35,5 +35,6 @@ if __name__ == "__main__":
             coffee_machine.add_resource(water_amount, milk_amount, coffee_amount)
         elif usr_input == "exit":
             coffee_machine.quit()
+            isRunning = False
         else:
             print("Invalid command.")
